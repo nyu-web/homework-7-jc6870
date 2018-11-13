@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TicTacToe</title>
+</head>
+<body>
+<div class="container">
+    <div class="block b0"></div>
+    <div class="block b1"></div>
+    <div class="block b2"></div>
+    <div class="block b3"></div>
+    <div class="block b4"></div>
+    <div class="block b5"></div>
+    <div class="block b6"></div>
+    <div class="block b7"></div>
+    <div class="block b8"></div>
+</div>
+<h2></h2>
+</body>
+</html>
+
+
+<style>
+    .container{ /*All of this is for the big box that contains the entire game and organizes it into a grid.*/
+        height: 120px;
+        width: 120px;
+        display:grid;
+        grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    }
+
+    .block{
+        display: grid;
+        width: 40px;
+        height: 40px;
+        border: solid 3px black;
+        justify-content: center; /*all this other stuff is for the text in each block*/
+        align-items: center;
+        font-size: 35px;
+    }
+</style>
+
+<script>
+    var block0 = document.querySelector(".b0"); //This is all the variables for our blocks.
+    var block1 = document.querySelector(".b1");
+    var block2 = document.querySelector(".b2");
+    var block3 = document.querySelector(".b3");
+    var block4 = document.querySelector(".b4");
+    var block5 = document.querySelector(".b5");
+    var block6 = document.querySelector(".b6");
+    var block7 = document.querySelector(".b7");
+    var block8 = document.querySelector(".b8");
+    var playerTurn = true; //we start off at true for o
+    var turn = 0; //a variable to keep track of our turns
+
+    block0.addEventListener('click',function(){ //These are event listeners so that something happens when we click on a specific block.
+        console.log("clicked 1");
+        clickedBlock(block0)
+    });
+    block1.addEventListener('click',function(){
+        console.log("clicked 2");
+        clickedBlock(block1)
+    });
+    block2.addEventListener('click',function(){
+        console.log("clicked 3");
+        clickedBlock(block2)
+    });
+    block3.addEventListener('click',function(){
+        console.log("clicked 4");
+        clickedBlock(block3)
+    });
+    block4.addEventListener('click',function(){
+        console.log("clicked 5");
+        clickedBlock(block4)
+    });
+    block5.addEventListener('click',function(){
+        console.log("clicked 6");
+        clickedBlock(block5)
+    });
+    block6.addEventListener('click',function(){
+        console.log("clicked 7");
+        clickedBlock(block6)
+    });
+    block7.addEventListener('click',function(){
+        console.log("clicked 8");
+        clickedBlock(block7)
+    });
+    block8.addEventListener('click',function(){
+        console.log("clicked 9");
+        clickedBlock(block8)
+    });
+
+    function clickedBlock(block){ //HAHA! Now we are getting to the MEAT.
+        if (block.innerText==""){ //If the specific clicked block contains nothing...
+            if(playerTurn){ //Add an 'o' when the playerturn is True. Basically, when playerTurn = true.
+                block.innerText = 'o'
+            }else{ //Or add an 'x' if playerTurn = false;
+                block.innerText = 'x'
+            }
+            playerTurn = !playerTurn; //We gotta keep the turns MOVING! After each turn, change the boolean value of playerTurn. So, if playerTurn = false, then playerTurn = true, and vice versa.
+            turn++; // counts the turns
+            console.log(turn)
+        }
+
+
+        var lists = []; //This is our plate. We put our meat on this plate. Jokes aside, this is the array for our grid, and we're putting a bunch of stuff in this array.
+        for(var i=0;i<9;i++){ //For loop to go through each block.
+            lists[i] = document.querySelector(".b" + i ).innerText //"b" is a string, so if we just add whatever block number that is going through the for loop, that specific block ("b"i) will be selected.
+        }
+
+        console.log(lists); //just want to make sure we don't FUDGE it
+
+        var winCond = [ //the game ends when there's a WINNER. This array lists all the different ways to win.
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+            [0,4,8],
+            [2,4,6]
+        ];
+
+        var someWins = false; //We're setting the initial condition for winning to false. You'd have to be cheating to somehow win in tic tac toe at the start.
+        for(var i=0; i<winCond.length; i++){ //the length of winCond is 3, because that's how much stuff is in the array. We use a for loop to check if there's a win after each turn.
+            var curCond = winCond[i];
+            for(var o=0;o<3;o++){
+                if (lists[ curCond[0] ] == lists[ curCond[1] ] && lists[ curCond[0] ] == lists[ curCond[2] ] && lists[ curCond[0] ] != ""){
+                    console.log("same!");
+                    console.log(lists[ curCond[0] ]+ "Wins!");
+                    someWins=true;
+                    document.querySelector("h2").innerText=lists[ curCond[0] ]+ " Wins!"
+
+                }
+            }
+        }
+
+        if(turn == 9){
+            document.querySelector("h2").innerText='Tie!'
+        }
+        if(someWins || turn == 9){ //resets the game when there's a winner, or if all 9 turns happened with no winner.
+            block0.innerText ="";
+            block1.innerText ="";
+            block2.innerText ="";
+            block3.innerText ="";
+            block4.innerText ="";
+            block5.innerText ="";
+            block6.innerText ="";
+            block7.innerText ="";
+            block8.innerText ="";
+            turn = 0
+        }
+
+    }
+
+</script>
